@@ -1,0 +1,29 @@
+{
+  "name": "bulkky-assessment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/server.js",
+  "scripts": {
+    "migrate": "npx prisma migrate dev",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prisma:generate": "NODE_OPTIONS=--max_old_space_size=4096 npx prisma generate",
+    "build": "rm -rf ./dist && tsc && tsc-alias",
+    "build:prod": "NODE_OPTIONS=--max_old_space_size=4096 npx prisma generate && rimraf ./dist && tsc && npm prune --omit=dev",
+    "start": "npx prisma migrate deploy && node dist/src/server.js",
+    "dev": "ts-node-dev --poll src/server.ts",
+    "dev:watch": "nodemon --watch src --exec ts-node src/server.ts",
+    "cron:test": "jest src/jobs/__tests__/",
+    "postinstall": "npm rebuild sharp --force --platform=linux --arch=x64 --libc=glibc && prisma generate && npx puppeteer browsers install chrome"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^24.7.2",
+    "prisma": "^6.17.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.17.1"
+  }
+}
