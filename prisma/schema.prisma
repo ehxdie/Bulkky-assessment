@@ -22,8 +22,16 @@ model User {
   role      Role       @default(USER)
 }
 
-
 enum Role {
   USER
   ADMIN
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  name        String
+  description String
+  price       Float
+  stock       Int
+  imageUrl    String
 }

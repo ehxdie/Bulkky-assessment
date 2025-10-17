@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { deleteProduct } from "../../services/database/product";
+import { getAProduct } from "../../services/database/product";
 import {
   HttpStatusCode,
   BadRequestError,
@@ -7,7 +7,7 @@ import {
 } from "../../../../exceptions";
 import { logger } from "../../../../utils/logger";
 
-export const deleteProductHandler = async (
+export const getProductHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -16,23 +16,26 @@ export const deleteProductHandler = async (
     const { id } = req.params;
 
     if (!id || typeof id !== "string") {
-      logger.warn("Invalid or missing product id for deletion.");
+      logger.warn("Invalid or missing product id for fetching.");
       return next(
         new BadRequestError("Product id is required and must be a string.")
       );
     }
 
-    const deletedProduct = await deleteProduct({ id });
+    const product = await getAProduct({ id });
 
-    logger.info("Product deleted", { productId: deletedProduct.id });
+    if (!product) {
+      logger.warn(`Product not found: ${id}`);
+      return next(new BadRequestError("Product not found."));
+    }
 
     res.status(HttpStatusCode.OK).json({
       status: "ok",
-      data: deletedProduct,
-      message: "Product deleted successfully.",
+      data: product,
+      message: "Product fetched successfully.",
     });
   } catch (error) {
-    logger.error("Error deleting product:", error);
+    logger.error("Error fetching product:", error);
     next(new InternalServerError("Internal server error"));
   }
 };
