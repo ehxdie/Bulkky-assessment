@@ -5,45 +5,45 @@ import swaggerUi from "swagger-ui-express";
 import type { Express, Request, Response } from "express";
 
 const options: Options = {
-    definition: {
-        openapi: "3.0.1",
-        info: {
-            title: "Aj's Marketplace API Documentation",
-            version: "1.0.0",
-        },
-        schemes: ["http", "https"],
-        servers: [{ url: "http://localhost:3000/api/v1" }],
-        components: {
-            securitySchemas: {
-                bearerAuth: {
-                    type: "http",
-                    scheme: "bearer",
-                    bearerFormat: "JWT",
-                },
-            },
-        },
-        security: [
-            {
-                bearerAuth: [],
-            },
-        ],
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: "Bulkky API Documentation",
+      version: "1.0.0",
     },
-    apis: ["./src/api/**.ts", "./src/schemas/*.ts"],
+    schemes: ["http", "https"],
+    servers: [{ url: "http://localhost:3000" }],
+    components: {
+      securitySchemas: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
+  },
+  apis: ["./src/api/**/*.ts", "./src/schemas/*.ts"],
 };
 
 export const swaggerSpec = swaggerJSDoc(options);
 
-function swaggerDocs(app: Express, port: number) {
-    // Swagger page
-    app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+export function swaggerDocs(app: Express, port: any) {
+  // Swagger page
+  app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-    // Docs in JSON format
-    app.get("/docs.json", (req: Request, res: Response) => {
-        res.setHeader("Content-Type", "application/json");
-        res.send(swaggerSpec);
-    });
+  // Docs in JSON format
+  app.get("/docs.json", (req: Request, res: Response) => {
+    res.setHeader("Content-Type", "application/json");
+    res.send(swaggerSpec);
+  });
 
-    console.log(`Docs available at http://localhost:${port}/docs`);
+  console.log(`Docs available at http://localhost:${port}/docs`);
 }
 
 export default swaggerDocs;
