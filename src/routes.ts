@@ -1,11 +1,10 @@
 import { Router } from "express";
 import type { Request, Response } from "express";
-import authenticationRoutes from "./api/authentication";
-import vendorRoutes from "./api/vendor";
 import adminRoutes from "./api/admin";
-import conversationRoutes from "./api/conversations";
-import clientRoutes from "./api/client";
-import chatRoutes from "./api/chat";
+import authenticationRoutes from "./api/authentication";
+import cartRoutes from "./api/cart";
+import orderRoutes from "./api/orders";
+import wishlistRoutes from "./api/wishlist";
 
 
 const router = Router();
@@ -13,13 +12,12 @@ const router = Router();
 router.get("/healthcheck", (req: Request, res: Response) => {
     res.status(200).json({ message: "ok" });
 });
-  
-router.use("/:version/auth", authenticationRoutes);
-router.use("/:version/vendor", vendorRoutes);
+
 router.use("/:version/admin", adminRoutes);
-router.use("/:version/conversations", conversationRoutes);
-router.use("/:version/client", clientRoutes);
-router.use("/:version/chat", chatRoutes);
+router.use("/:version/auth", authenticationRoutes);
+router.use("/:version/cart", cartRoutes);
+router.use("/:version/orders", orderRoutes);
+router.use("/:version/wishlist", wishlistRoutes);
 
 
 export default router;
