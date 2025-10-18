@@ -1,9 +1,10 @@
 import { Router } from "express";
 import * as WishController from "./handlers";
-
+import { checkJwt } from "../../middlewares/checkJwt";
 
 const router = Router({ mergeParams: true });
 
+router.use(checkJwt);
 /**
  * @openapi
  * /wishlist:
