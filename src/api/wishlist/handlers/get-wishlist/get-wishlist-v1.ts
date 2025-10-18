@@ -6,6 +6,7 @@ import {
   InternalServerError,
 } from "../../../../exceptions";
 import { logger } from "../../../../utils/logger";
+import { CustomRequest } from "../../../../middlewares/checkJwt";
 
 export const getWishlistHandler = async (
   req: Request,
@@ -13,15 +14,15 @@ export const getWishlistHandler = async (
   next: NextFunction
 ) => {
   try {
-    const { userId } = req.params;
+    
+    const customReq = req as CustomRequest;
+    const userId = customReq.user?.id;
 
-    if (!userId || typeof userId !== "string") {
-      logger.warn("Invalid or missing userId for fetching wishlist.");
-      return next(
-        new BadRequestError("userId is required and must be a string.")
-      );
+    if (!userId) {
+      return next(new BadRequestError("User ID is required"));
     }
 
+  
     const wishlist = await getWishlistByUserId(userId);
 
     res.status(HttpStatusCode.OK).json({

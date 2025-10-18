@@ -6,6 +6,7 @@ import {
   InternalServerError,
 } from "../../../../exceptions";
 import { logger } from "../../../../utils/logger";
+import { CustomRequest } from "../../../../middlewares/checkJwt";
 
 export const deleteWishlistHandler = async (
   req: Request,
@@ -13,7 +14,13 @@ export const deleteWishlistHandler = async (
   next: NextFunction
 ) => {
   try {
-    const { userId, productId } = req.body;
+    const customReq = req as CustomRequest;
+    const userId = customReq.user?.id;
+
+    if (!userId) {
+      return next(new BadRequestError("User ID is required"));
+    }
+    const { productId } = req.body;
 
     if (!userId || typeof userId !== "string") {
       logger.warn("Invalid or missing userId for wishlist deletion.");
