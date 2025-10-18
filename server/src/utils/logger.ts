@@ -1,5 +1,5 @@
 import winston from "winston";
-import { isDevEnvironment } from ".";
+import { isDevEnvironment } from "./index";
 
 const customLevels = {
     levels: {

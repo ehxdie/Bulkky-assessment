@@ -34,7 +34,7 @@ router.post("/", WishController.createWishlistHandler);
 
 /**
  * @openapi
- * /wishlist/{userId}:
+ * /wishlist:
  *   get:
  *     tags:
  *       - Wishlist
@@ -49,7 +49,7 @@ router.post("/", WishController.createWishlistHandler);
  *       200:
  *         description: Wishlist fetched successfully
  */
-router.get("/:userId", WishController.getWishlistHandler);
+router.get("/", WishController.getWishlistHandler);
 
 /**
  * @openapi
