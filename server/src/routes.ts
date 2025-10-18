@@ -5,6 +5,7 @@ import authenticationRoutes from "./api/authentication";
 import cartRoutes from "./api/cart";
 import orderRoutes from "./api/orders";
 import wishlistRoutes from "./api/wishlist";
+import clientRoutes from "./api/client";
 
 
 const router = Router();
@@ -18,6 +19,7 @@ router.use("/:version/auth", authenticationRoutes);
 router.use("/:version/cart", cartRoutes);
 router.use("/:version/orders", orderRoutes);
 router.use("/:version/wishlist", wishlistRoutes);
+router.use("/:version/client", clientRoutes);
 
 
 export default router;
