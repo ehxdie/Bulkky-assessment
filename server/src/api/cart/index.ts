@@ -8,7 +8,7 @@ router.use(checkJwt);
 
 /**
  * @openapi
- * /cart/products/{id}:
+ * /cart/products:
  *   post:
  *     tags:
  *       - Cart
@@ -34,7 +34,7 @@ router.use(checkJwt);
  *       201:
  *         description: Product added to cart successfully
  */
-router.post("/products/:id", CartController.addProductToCartHandler);
+router.post("/products", CartController.addProductToCartHandler);
 
 /**
  * @openapi
