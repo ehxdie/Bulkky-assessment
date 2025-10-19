@@ -88,7 +88,7 @@ Bulkky is a modern e-commerce platform featuring a RESTful backend and a React f
    ```
    
 5. Access API: [http://localhost:3000](http://localhost:3000)  
-   Swagger docs: [http://localhost:3000/docs](http://localhost:3000/docs)  
+   Swagger docs: [http://localhost:3000/docs/#/](http://localhost:3000/docs)  
    Adminer: [http://localhost:3001](http://localhost:3001)
 
 ### Frontend Setup (`client/`)
