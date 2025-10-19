@@ -1,6 +1,6 @@
 # Bulkky Assessment
 
-A full-stack e-commerce application with a backend API (Node.js, Express, TypeScript, Prisma, Redis) and a frontend client (React, TypeScript, React Router, TanStack Query). The project provides admin, authentication, cart, order, wishlist, and client management features, with robust error handling and OpenAPI documentation.
+A full-stack e-commerce application with a backend API (Node.js, Express, TypeScript, Prisma, Redis) and a frontend client (React, TypeScript, React Router, Context API). The project provides admin, authentication, cart, order, wishlist, and client management features, with robust error handling and OpenAPI documentation.
 
 ---
 
@@ -17,19 +17,15 @@ Bulkky is a modern e-commerce platform featuring a RESTful backend and a React f
 
 ### Server (Backend)
 
-- Admin authentication and dashboard
 - Product CRUD operations
-- User registration/login (JWT)
+- Admin and User registration/login (JWT)
 - Cart management (add/remove/view)
 - Order creation and history
 - Wishlist management
-- Client details endpoint
 - Type-safe codebase (TypeScript)
 - Prisma ORM (Postgres)
-- Redis caching
 - OpenAPI docs (`/docs`)
-- Docker Compose setup
-- Jest unit/integration tests
+- Docker Compose setup for database
 
 ### Client (Frontend)
 
@@ -39,9 +35,8 @@ Bulkky is a modern e-commerce platform featuring a RESTful backend and a React f
 - Order placement and history
 - Admin dashboard (protected route)
 - React Router navigation
-- TanStack Query for data fetching/caching
+- Context API for data fetching/caching
 - Tailwind CSS styling
-- Jest + Testing Library tests
 
 ---
 
@@ -81,7 +76,7 @@ Bulkky is a modern e-commerce platform featuring a RESTful backend and a React f
    JWT_EXPIRES_IN=1h
    JWT_ISSUER=bulkky
    ```
-3. Start backend stack:
+3. Start Database:
    ```bash
    docker-compose up --build
    ```
