@@ -42,10 +42,9 @@ Bulkky is a modern e-commerce platform featuring a RESTful backend and a React f
 
 ## Tech Stack
 
-- **Backend:** Node.js, Express, TypeScript, Prisma, Redis
-- **Frontend:** React, TypeScript, React Router, TanStack Query, Tailwind CSS
+- **Backend:** Node.js, Express, TypeScript, Prisma
+- **Frontend:** React, TypeScript, React Router, Context Api, Tailwind CSS
 - **Database:** PostgreSQL
-- **Testing:** Jest, Supertest, Testing Library
 - **Documentation:** Swagger (swagger-ui-express)
 - **DevOps:** Docker, Docker Compose
 
