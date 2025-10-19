@@ -1,4 +1,5 @@
 import React from "react";
+import LogoutButton from "./logout";
 
 const MainContainer: React.FC<{ children?: React.ReactNode }> = ({
   children,
@@ -17,6 +18,7 @@ const MainContainer: React.FC<{ children?: React.ReactNode }> = ({
           flexDirection: "column",
         }}
       >
+        <LogoutButton />
         {children}
       </div>
     </div>
