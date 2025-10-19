@@ -24,7 +24,7 @@ export function updateCartItemQuantity(
 ) {
   return api.put<UpdateCartItemQuantityResponse>(
     `/cart/products/${cartItemId}`,
-    { body: data }
+    data // <-- send data directly, not { body: data }
   );
 }
 

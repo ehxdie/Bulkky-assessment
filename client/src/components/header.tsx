@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { getCart } from "../services/cart";
+import Cart from "./cart";
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const Header: React.FC = () => {
       </button>
       <div className="flex items-center gap-4">
         <button
-          onClick={handleCartClick}
+          onClick={() => setShowCart((prev) => !prev)}
           className="relative bg-gray-200 p-2 rounded hover:bg-gray-300 transition"
           title="View Cart"
         >
@@ -48,36 +49,7 @@ const Header: React.FC = () => {
             🛒
           </span>
         </button>
-        {showCart && (
-          <div className="absolute right-24 top-16 bg-white shadow-lg rounded p-4 w-80 max-h-96 overflow-y-auto border z-20">
-            <h3 className="font-bold mb-2">Cart Items</h3>
-            {loading ? (
-              <div>Loading...</div>
-            ) : cartItems.length === 0 ? (
-              <div>No items in cart.</div>
-            ) : (
-              <ul>
-                {cartItems.map((item) => (
-                  <li key={item.id} className="mb-2 border-b pb-2">
-                    <div className="font-semibold">{item.product?.name || "Product"}</div>
-                    <div className="text-sm text-gray-600">
-                      Quantity: {item.quantity}
-                    </div>
-                    <div className="text-sm text-gray-700">
-                      Price: ${item.product?.price ?? "N/A"}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <button
-              className="mt-2 text-blue-600 underline"
-              onClick={() => setShowCart(false)}
-            >
-              Close
-            </button>
-          </div>
-        )}
+        {showCart && <Cart onClose={() => setShowCart(false)} />}
         <button
           onClick={handleLogout}
           className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
