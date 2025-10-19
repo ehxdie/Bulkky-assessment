@@ -11,7 +11,6 @@ const Header: React.FC = () => {
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Fetch cart items count whenever cart is opened or on mount
   useEffect(() => {
     const fetchCartCount = async () => {
       setLoading(true);
@@ -27,7 +26,6 @@ const Header: React.FC = () => {
     fetchCartCount();
   }, []);
 
-  // Optionally, update count when cart is toggled open
   const handleCartClick = async () => {
     setShowCart((prev) => !prev);
     if (!showCart) {
@@ -55,12 +53,20 @@ const Header: React.FC = () => {
 
   return (
     <header className="w-full flex items-center justify-between p-4 bg-white border-b relative z-10">
-      <button
-        onClick={() => navigate("/products")}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-      >
-        Home
-      </button>
+      <div className="flex items-center gap-4">
+        <button
+          onClick={() => navigate("/products")}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+        >
+          Home
+        </button>
+        <button
+          onClick={() => navigate("/orders")}
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+        >
+          Orders
+        </button>
+      </div>
       <div className="flex items-center gap-4">
         <button
           onClick={handleCartClick}
