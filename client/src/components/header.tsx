@@ -66,6 +66,12 @@ const Header: React.FC = () => {
         >
           Orders
         </button>
+        <button
+          onClick={() => navigate("/wishlist")}
+          className="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition"
+        >
+          Wishlist
+        </button>
       </div>
       <div className="flex items-center gap-4">
         <button
