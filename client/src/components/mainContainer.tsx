@@ -1,5 +1,5 @@
 import React from "react";
-import LogoutButton from "./logout";
+import Header from "./header";
 
 const MainContainer: React.FC<{ children?: React.ReactNode }> = ({
   children,
@@ -10,7 +10,7 @@ const MainContainer: React.FC<{ children?: React.ReactNode }> = ({
       style={{ minHeight: "100vh" }}
     >
       <div
-        className="bg-white shadow-lg rounded-xl overflow-hidden flex flex-col h-full"
+        className="bg-white shadow-lg rounded-xl overflow-hidden flex flex-col h-full w-full"
         style={{
           maxWidth: "100vw",
           maxHeight: "100vh",
@@ -18,8 +18,8 @@ const MainContainer: React.FC<{ children?: React.ReactNode }> = ({
           flexDirection: "column",
         }}
       >
-        <LogoutButton />
-        {children}
+        <Header />
+        <div className="flex-1 overflow-auto">{children}</div>
       </div>
     </div>
   );

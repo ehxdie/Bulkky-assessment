@@ -22,9 +22,6 @@ const ProductListing: React.FC = () => {
             onClick={() => navigate(`/products/${product.id}`)}
           >
             <div className="font-semibold text-lg">{product.name}</div>
-            <div className="text-sm text-gray-600 mb-2">
-              {product.description}
-            </div>
             <div className="flex gap-4 text-sm text-gray-700">
               <span>
                 <strong>Price:</strong> ${product.price}

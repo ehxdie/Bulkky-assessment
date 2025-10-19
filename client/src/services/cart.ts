@@ -9,11 +9,9 @@ import { AddProductToCartRequest,
 
 export function addProductToCart(data: AddProductToCartRequest) {
   return api.post<AddProductToCartResponse>(
-    "/cart/products",
-    {body: data}
-  );
+    "/cart/products", data);
 }
-``
+
 // Get all cart items for the user
 export function getCart() {
   return api.get<GetCartResponse>("/cart");
