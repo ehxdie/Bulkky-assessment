@@ -13,6 +13,7 @@ const Cart: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [placingOrder, setPlacingOrder] = useState(false);
   const [orderSuccess, setOrderSuccess] = useState<string | null>(null);
   const [orderError, setOrderError] = useState<string | null>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const fetchCart = async () => {
     setLoading(true);
@@ -44,12 +45,16 @@ const Cart: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     fetchCart();
   };
 
-  const handlePlaceOrder = async () => {
+  const handlePlaceOrderClick = () => {
+    setShowConfirm(true);
+  };
+
+  const handleConfirmOrder = async () => {
     setPlacingOrder(true);
     setOrderSuccess(null);
     setOrderError(null);
     try {
-      const resp = await placeOrderFromCart();
+      await placeOrderFromCart();
       setOrderSuccess("Order placed successfully!");
       setCartItems([]); // Optionally clear cart after order
       setTimeout(() => setOrderSuccess(null), 1500);
@@ -58,7 +63,12 @@ const Cart: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       setTimeout(() => setOrderError(null), 1500);
     } finally {
       setPlacingOrder(false);
+      setShowConfirm(false);
     }
+  };
+
+  const handleCancelConfirm = () => {
+    setShowConfirm(false);
   };
 
   return (
@@ -113,13 +123,37 @@ const Cart: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <div className="text-green-600 mt-2">{orderSuccess}</div>
       )}
       {orderError && <div className="text-red-600 mt-2">{orderError}</div>}
-      <button
-        className="mt-4 bg-green-600 text-white px-4 py-2 rounded w-full"
-        onClick={handlePlaceOrder}
-        disabled={placingOrder || cartItems.length === 0}
-      >
-        {placingOrder ? "Placing Order..." : "Place Order"}
-      </button>
+      {showConfirm ? (
+        <div className="mt-4 flex flex-col items-center">
+          <div className="mb-2 font-semibold">
+            Are you sure you want to place this order?
+          </div>
+          <div className="flex gap-2">
+            <button
+              className="bg-green-600 text-white px-4 py-2 rounded"
+              onClick={handleConfirmOrder}
+              disabled={placingOrder}
+            >
+              {placingOrder ? "Placing..." : "Confirm"}
+            </button>
+            <button
+              className="bg-gray-400 text-white px-4 py-2 rounded"
+              onClick={handleCancelConfirm}
+              disabled={placingOrder}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      ) : (
+        <button
+          className="mt-4 bg-green-600 text-white px-4 py-2 rounded w-full"
+          onClick={handlePlaceOrderClick}
+          disabled={placingOrder || cartItems.length === 0}
+        >
+          Place Order
+        </button>
+      )}
       <button className="mt-2 text-blue-600 underline w-full" onClick={onClose}>
         Close
       </button>

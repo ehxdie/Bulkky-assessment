@@ -29,7 +29,6 @@ const Register: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
     try {
       const resp = await register(form);
       setSuccess(resp.data.message);
-      // Redirect to login after successful registration
       setTimeout(() => {
         navigate("/login");
       }, 1200);
@@ -41,62 +40,89 @@ const Register: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   };
 
   return (
-    <form className="p-6 flex flex-col gap-4" onSubmit={handleSubmit}>
-      <h2 className="text-2xl font-bold mb-2">Register</h2>
-      <input
-        name="name"
-        type="text"
-        placeholder="Name"
-        value={form.name}
-        onChange={handleChange}
-        className="border rounded px-3 py-2"
-        required
-      />
-      <input
-        name="email"
-        type="email"
-        placeholder="Email"
-        value={form.email}
-        onChange={handleChange}
-        className="border rounded px-3 py-2"
-        required
-      />
-      <input
-        name="password"
-        type="password"
-        placeholder="Password"
-        value={form.password}
-        onChange={handleChange}
-        className="border rounded px-3 py-2"
-        required
-      />
-      <select
-        name="role"
-        value={form.role}
-        onChange={handleChange}
-        className="border rounded px-3 py-2"
-        required
-      >
-        <option value="USER">User</option>
-        <option value="ADMIN">Admin</option>
-      </select>
-      <button
-        type="submit"
-        className="bg-blue-600 text-white rounded px-4 py-2"
-        disabled={loading}
-      >
-        {loading ? "Registering..." : "Register"}
-      </button>
-      {error && <div className="text-red-500">{error}</div>}
-      {success && <div className="text-green-600">{success}</div>}
-      <button
-        type="button"
-        className="text-blue-600 underline mt-2"
-        onClick={onSwitch}
-      >
-        Already have an account? Login
-      </button>
-    </form>
+    <div
+      className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 mx-2 font-sans"
+      style={{ fontFamily: "Montserrat, Arial, sans-serif" }}
+    >
+      <div className="mb-8 text-center">
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">
+          Create Account
+        </h1>
+      </div>
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+        <label className="text-sm font-medium text-gray-700" htmlFor="name">
+          Name
+        </label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Full Name"
+          value={form.name}
+          onChange={handleChange}
+          className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
+          required
+        />
+        <label className="text-sm font-medium text-gray-700" htmlFor="email">
+          Email Address
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="Email"
+          value={form.email}
+          onChange={handleChange}
+          className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
+          required
+        />
+        <label className="text-sm font-medium text-gray-700" htmlFor="password">
+          Password
+        </label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={handleChange}
+          className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
+          required
+        />
+        <label className="text-sm font-medium text-gray-700" htmlFor="role">
+          Role
+        </label>
+        <select
+          id="role"
+          name="role"
+          value={form.role}
+          onChange={handleChange}
+          className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
+          required
+        >
+          <option value="USER">User</option>
+          <option value="ADMIN">Admin</option>
+        </select>
+        <button
+          type="submit"
+          className="bg-gray-700 text-white rounded px-4 py-2 font-semibold shadow hover:bg-gray-800 transition"
+          disabled={loading}
+        >
+          {loading ? "Registering..." : "Register"}
+        </button>
+        {error && <div className="text-red-500 text-center">{error}</div>}
+        {success && <div className="text-green-600 text-center">{success}</div>}
+      </form>
+      <div className="mt-6 text-center">
+        <button
+          type="button"
+          className="text-gray-700 underline font-medium"
+          onClick={onSwitch}
+        >
+          Already have an account? Login
+        </button>
+      </div>
+    </div>
   );
 };
 

@@ -33,7 +33,6 @@ const Login: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
     try {
       await auth?.login(form);
       setSuccess("Login successful!");
-      // No need to manually navigate here; useEffect will handle it when user is set
     } catch (err: any) {
       setError(err.response?.data?.message || "Login failed");
     } finally {
@@ -42,43 +41,70 @@ const Login: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   };
 
   return (
-    <form className="p-6 flex flex-col gap-4" onSubmit={handleSubmit}>
-      <h2 className="text-2xl font-bold mb-2">Login</h2>
-      <input
-        name="email"
-        type="email"
-        placeholder="Email"
-        value={form.email}
-        onChange={handleChange}
-        className="border rounded px-3 py-2"
-        required
-      />
-      <input
-        name="password"
-        type="password"
-        placeholder="Password"
-        value={form.password}
-        onChange={handleChange}
-        className="border rounded px-3 py-2"
-        required
-      />
-      <button
-        type="submit"
-        className="bg-blue-600 text-white rounded px-4 py-2"
-        disabled={loading}
-      >
-        {loading ? "Logging in..." : "Login"}
-      </button>
-      {error && <div className="text-red-500">{error}</div>}
-      {success && <div className="text-green-600">{success}</div>}
-      <button
-        type="button"
-        className="text-blue-600 underline mt-2"
-        onClick={onSwitch}
-      >
-        Don't have an account? Register
-      </button>
-    </form>
+    <div
+      className="min-h-screen flex items-center justify-center bg-gray-50 font-sans"
+      style={{ fontFamily: "Montserrat, Arial, sans-serif" }}
+    >
+      <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8 mx-2">
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">
+            Welcome Back
+          </h1>
+          <p className="text-gray-500 text-sm">Sign in to your account</p>
+        </div>
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+          <label className="text-sm font-medium text-gray-700" htmlFor="email">
+            Email Address
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Enter your email"
+            value={form.email}
+            onChange={handleChange}
+            className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
+            required
+          />
+          <label
+            className="text-sm font-medium text-gray-700"
+            htmlFor="password"
+          >
+            Password
+          </label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Enter your password"
+            value={form.password}
+            onChange={handleChange}
+            className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
+            required
+          />
+          <button
+            type="submit"
+            className="bg-gray-700 text-white rounded px-4 py-2 font-semibold shadow hover:bg-gray-800 transition"
+            disabled={loading}
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+          {error && <div className="text-red-500 text-center">{error}</div>}
+          {success && (
+            <div className="text-green-600 text-center">{success}</div>
+          )}
+        </form>
+        <div className="mt-6 text-center">
+          <button
+            type="button"
+            className="text-gray-700 underline font-medium"
+            onClick={onSwitch}
+          >
+            Don't have an account? Register
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 

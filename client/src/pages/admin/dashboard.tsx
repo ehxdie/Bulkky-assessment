@@ -107,16 +107,24 @@ const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="p-6 h-full flex flex-col">
-      <h2 className="text-2xl font-bold mb-4">Admin Dashboard</h2>
+    <div
+      className="p-4 md:p-8 h-full flex flex-col font-sans bg-gray-50 min-h-screen"
+      style={{ fontFamily: "Montserrat, Arial, sans-serif" }}
+    >
+      <h2 className="text-3xl font-bold mb-6 text-gray-800 text-center">
+        Admin Dashboard
+      </h2>
 
-      <form className="mb-6 flex flex-col gap-2" onSubmit={handleCreate}>
+      <form
+        className="mb-8 flex flex-col gap-4 bg-white rounded-xl shadow p-6 w-full max-w-xl mx-auto"
+        onSubmit={handleCreate}
+      >
         <input
           name="name"
-          placeholder="Name"
+          placeholder="Product Name"
           value={form.name}
           onChange={handleChange}
-          className="border px-2"
+          className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
           required
         />
         <input
@@ -124,38 +132,38 @@ const AdminDashboard: React.FC = () => {
           placeholder="Description"
           value={form.description}
           onChange={handleChange}
-          className="border px-2"
+          className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
           required
         />
-        <div className="flex gap-2">
-          <div className="flex flex-col">
-            <label className="text-sm text-gray-700">Price</label>
+        <div className="flex gap-4 flex-col sm:flex-row">
+          <div className="flex flex-col flex-1">
+            <label className="text-sm text-gray-700 mb-1">Price</label>
             <input
               name="price"
               type="number"
               placeholder="Price"
               value={String(form.price)}
               onChange={handleChange}
-              className="border px-2"
+              className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
               required
             />
           </div>
-          <div className="flex flex-col">
-            <label className="text-sm text-gray-700">Stock</label>
+          <div className="flex flex-col flex-1">
+            <label className="text-sm text-gray-700 mb-1">Stock</label>
             <input
               name="stock"
               type="number"
               placeholder="Stock"
               value={String(form.stock)}
               onChange={handleChange}
-              className="border px-2"
+              className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
               required
             />
           </div>
         </div>
 
-        <label className="flex flex-col">
-          <span>Image</span>
+        <label className="flex flex-col mt-2">
+          <span className="mb-1 text-sm text-gray-700">Image</span>
           <input type="file" accept="image/*" onChange={handleFileChange} />
         </label>
 
@@ -163,28 +171,28 @@ const AdminDashboard: React.FC = () => {
           <img
             src={form.imageUrl}
             alt="preview"
-            className="w-32 h-32 object-cover mt-2"
+            className="w-32 h-32 object-cover mt-2 rounded"
           />
         )}
 
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-gray-700 text-white px-4 py-2 rounded font-semibold shadow hover:bg-gray-800 transition"
           disabled={uploading}
         >
-          {uploading ? "Processing..." : "Create"}
+          {uploading ? "Processing..." : "Create Product"}
         </button>
       </form>
 
       <div
-        className="flex-1 overflow-y-auto border rounded bg-gray-50 pb-10"
+        className="flex-1 overflow-y-auto border rounded bg-white pb-10 shadow w-full max-w-3xl mx-auto"
         style={{ minHeight: "300px", maxHeight: "60vh" }}
       >
         <ul>
           {products.map((product) => (
             <li
               key={product.id}
-              className="mb-2 flex flex-col gap-2 border-b pb-2"
+              className="mb-4 flex flex-col gap-2 border-b pb-4 px-4"
             >
               {editId === product.id ? (
                 <form className="flex flex-col gap-2" onSubmit={handleUpdate}>
@@ -198,7 +206,7 @@ const AdminDashboard: React.FC = () => {
                         name: e.target.value,
                       }))
                     }
-                    className="border px-2"
+                    className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
                     required
                   />
                   <input
@@ -211,12 +219,14 @@ const AdminDashboard: React.FC = () => {
                         description: e.target.value,
                       }))
                     }
-                    className="border px-2"
+                    className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
                     required
                   />
-                  <div className="flex gap-2">
-                    <div className="flex flex-col">
-                      <label className="text-sm text-gray-700">Price</label>
+                  <div className="flex gap-4 flex-col sm:flex-row">
+                    <div className="flex flex-col flex-1">
+                      <label className="text-sm text-gray-700 mb-1">
+                        Price
+                      </label>
                       <input
                         name="price"
                         type="number"
@@ -228,12 +238,14 @@ const AdminDashboard: React.FC = () => {
                             price: Number(e.target.value),
                           }))
                         }
-                        className="border px-2"
+                        className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
                         required
                       />
                     </div>
-                    <div className="flex flex-col">
-                      <label className="text-sm text-gray-700">Stock</label>
+                    <div className="flex flex-col flex-1">
+                      <label className="text-sm text-gray-700 mb-1">
+                        Stock
+                      </label>
                       <input
                         name="stock"
                         type="number"
@@ -245,14 +257,16 @@ const AdminDashboard: React.FC = () => {
                             stock: Number(e.target.value),
                           }))
                         }
-                        className="border px-2"
+                        className="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400 transition"
                         required
                       />
                     </div>
                   </div>
 
-                  <label className="flex flex-col">
-                    <span>Change Image</span>
+                  <label className="flex flex-col mt-2">
+                    <span className="mb-1 text-sm text-gray-700">
+                      Change Image
+                    </span>
                     <input
                       type="file"
                       accept="image/*"
@@ -264,20 +278,20 @@ const AdminDashboard: React.FC = () => {
                     <img
                       src={editForm.imageUrl as string}
                       alt="preview"
-                      className="w-32 h-32 object-cover mt-2"
+                      className="w-32 h-32 object-cover mt-2 rounded"
                     />
                   )}
 
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 mt-2">
                     <button
                       type="submit"
-                      className="bg-green-600 text-white px-2 py-1 rounded"
+                      className="bg-green-600 text-white px-4 py-2 rounded font-semibold shadow hover:bg-green-700 transition"
                     >
                       Update
                     </button>
                     <button
                       type="button"
-                      className="bg-gray-400 text-white px-2 py-1 rounded"
+                      className="bg-gray-400 text-white px-4 py-2 rounded font-semibold shadow hover:bg-gray-500 transition"
                       onClick={handleCancelEdit}
                     >
                       Cancel
@@ -285,9 +299,11 @@ const AdminDashboard: React.FC = () => {
                   </div>
                 </form>
               ) : (
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
                   <div>
-                    <div className="font-semibold">{product.name}</div>
+                    <div className="font-semibold text-lg text-gray-800">
+                      {product.name}
+                    </div>
                     <div className="text-sm text-gray-600 mb-1">
                       {product.description}
                     </div>
@@ -300,15 +316,15 @@ const AdminDashboard: React.FC = () => {
                       </span>
                     </div>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 mt-2 sm:mt-0">
                     <button
-                      className="bg-yellow-500 text-white px-2 py-1 rounded"
+                      className="bg-gray-700 text-white px-3 py-1 rounded font-semibold shadow hover:bg-gray-800 transition"
                       onClick={() => handleEdit(product)}
                     >
                       Edit
                     </button>
                     <button
-                      className="bg-red-500 text-white px-2 py-1 rounded"
+                      className="bg-red-500 text-white px-3 py-1 rounded font-semibold shadow hover:bg-red-600 transition"
                       onClick={() => handleDelete(product.id)}
                     >
                       Delete
