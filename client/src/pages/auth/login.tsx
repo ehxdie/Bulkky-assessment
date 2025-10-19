@@ -16,7 +16,7 @@ const Login: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
       if (auth.user.role === "ADMIN") {
         navigate("/admin");
       } else {
-        navigate("/");
+        navigate("/products");
       }
     }
   }, [auth?.user, navigate]);

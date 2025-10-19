@@ -51,30 +51,37 @@ const Header: React.FC = () => {
     window.location.href = "/login";
   };
 
+  // Only show navigation buttons if user role is USER
+  const isUser = auth?.user?.role === "USER";
+
   return (
     <header
       className="w-full flex flex-col md:flex-row items-center justify-between px-4 py-3 bg-white border-b shadow-sm font-sans"
       style={{ fontFamily: "Montserrat, Arial, sans-serif" }}
     >
       <div className="flex items-center gap-2 md:gap-4 mb-2 md:mb-0">
-        <button
-          onClick={() => navigate("/products")}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition font-semibold text-sm"
-        >
-          Home
-        </button>
-        <button
-          onClick={() => navigate("/orders")}
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition font-semibold text-sm"
-        >
-          Orders
-        </button>
-        <button
-          onClick={() => navigate("/wishlist")}
-          className="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition font-semibold text-sm"
-        >
-          Wishlist
-        </button>
+        {isUser && (
+          <>
+            <button
+              onClick={() => navigate("/products")}
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition font-semibold text-sm"
+            >
+              Home
+            </button>
+            <button
+              onClick={() => navigate("/orders")}
+              className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition font-semibold text-sm"
+            >
+              Orders
+            </button>
+            <button
+              onClick={() => navigate("/wishlist")}
+              className="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition font-semibold text-sm"
+            >
+              Wishlist
+            </button>
+          </>
+        )}
       </div>
       <div className="flex items-center gap-2 md:gap-4">
         <button

@@ -133,7 +133,7 @@ dist
 /curl
 
 # Docker Compose file
-docker-compose.yaml
+
 /src/generated/prisma
 
 /src/generated/prisma
