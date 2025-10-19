@@ -13,7 +13,9 @@ const Register: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -62,6 +64,16 @@ const Register: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
         className="border rounded px-3 py-2"
         required
       />
+      <select
+        name="role"
+        value={form.role}
+        onChange={handleChange}
+        className="border rounded px-3 py-2"
+        required
+      >
+        <option value="USER">User</option>
+        <option value="ADMIN">Admin</option>
+      </select>
       <button
         type="submit"
         className="bg-blue-600 text-white rounded px-4 py-2"

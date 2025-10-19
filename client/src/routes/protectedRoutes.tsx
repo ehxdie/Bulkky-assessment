@@ -1,19 +1,25 @@
+import React, { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
-export function PrivateRoute({ children: any }) {
-  const { user } = useAuth();
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
-  return children;
+interface ProtectedRouteProps {
+  children: ReactNode;
 }
 
-// For admin-only:
-export function AdminRoute({ children }) {
-  const { user } = useAuth();
-  if (!user || user.role !== "ADMIN") {
-    return <Navigate to="/" />;
+export function PrivateRoute({ children }: ProtectedRouteProps) {
+  const auth = useAuth();
+  const user = auth?.user;
+  if (!user) {
+    return <Navigate to="/login" replace />;
   }
-  return children;
+  return <>{children}</>;
+}
+
+export function AdminRoute({ children }: ProtectedRouteProps) {
+  const auth = useAuth();
+  const user = auth?.user;
+  if (!user || user.role !== "ADMIN") {
+    return <Navigate to="/" replace />;
+  }
+  return <>{children}</>;
 }

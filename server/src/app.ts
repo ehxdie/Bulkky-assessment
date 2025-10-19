@@ -27,9 +27,10 @@ app.use(helmet());
 
 // list of allowed origins
 const allowedOrigins = [
-  "https://ajarra.vercel.app",  // production frontend
-  "http://localhost:3000",      // local dev (React/Next.js)
-  "http://127.0.0.1:3000"       // alternative localhost
+  "https://ajarra.vercel.app", // production frontend
+  "http://localhost:3000", // local dev (React/Next.js)
+  "http://127.0.0.1:3000",
+  "http://localhost:3002", // alternative localhost
 ];
 
 app.use(
