@@ -176,7 +176,10 @@ const AdminDashboard: React.FC = () => {
         </button>
       </form>
 
-      <div className="flex-1 overflow-y-auto">
+      <div
+        className="flex-1 overflow-y-auto border rounded bg-gray-50 pb-10"
+        style={{ minHeight: "300px", maxHeight: "60vh" }}
+      >
         <ul>
           {products.map((product) => (
             <li
