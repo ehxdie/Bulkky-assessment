@@ -9,10 +9,8 @@ const MainContainer: React.FC<{ children?: React.ReactNode }> = ({
       style={{ minHeight: "100vh" }}
     >
       <div
-        className="bg-white shadow-lg rounded-xl overflow-hidden flex flex-col"
+        className="bg-white shadow-lg rounded-xl overflow-hidden flex flex-col h-full"
         style={{
-          width: 393,
-          height: 852,
           maxWidth: "100vw",
           maxHeight: "100vh",
           display: "flex",

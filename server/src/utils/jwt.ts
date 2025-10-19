@@ -12,6 +12,7 @@ const config = {
 export interface AuthTokenPayload {
     id: string;
     step?: string;
+    role: string;
 }
 
 // Generate a JWT token

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { register } from "../../services/auth";
 import type { SignUpRequest } from "../../types/auth";
 
@@ -12,6 +13,7 @@ const Register: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -27,6 +29,10 @@ const Register: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
     try {
       const resp = await register(form);
       setSuccess(resp.data.message);
+      // Redirect to login after successful registration
+      setTimeout(() => {
+        navigate("/login");
+      }, 1200);
     } catch (err: any) {
       setError(err.response?.data?.message || "Registration failed");
     } finally {

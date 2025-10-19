@@ -1,17 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../services/auth";
+import { useAuth } from "../../hooks/useAuth";
 import type { LoginRequest } from "../../types/auth";
 
 const Login: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
-  const [form, setForm] = useState<LoginRequest>({
-    email: "",
-    password: "",
-  });
+  const [form, setForm] = useState<LoginRequest>({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const navigate = useNavigate();
+  const auth = useAuth();
+
+  useEffect(() => {
+    if (auth?.user) {
+      if (auth.user.role === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+    }
+  }, [auth?.user, navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -23,17 +31,9 @@ const Login: React.FC<{ onSwitch: () => void }> = ({ onSwitch }) => {
     setError(null);
     setSuccess(null);
     try {
-      const resp = await login(form);
-      localStorage.setItem("token", resp.data.data.token);
+      await auth?.login(form);
       setSuccess("Login successful!");
-      // Decode token to get role
-      const payload = JSON.parse(atob(resp.data.data.token.split(".")[1]));
-      if (payload.role === "ADMIN") {
-        navigate("/admin");
-      } else {
-        // Redirect to another protected page or home if needed
-        navigate("/");
-      }
+      // No need to manually navigate here; useEffect will handle it when user is set
     } catch (err: any) {
       setError(err.response?.data?.message || "Login failed");
     } finally {

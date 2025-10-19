@@ -32,7 +32,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       }
 
       // Generate JWT token
-      const token = generateToken({ id: user.id });
+      const token = generateToken({ id: user.id, role: user.role });
 
       logger.info(`User logged in: ${user.id}`);
 

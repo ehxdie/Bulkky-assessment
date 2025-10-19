@@ -22,6 +22,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setUser(null);
         } else {
           setUser(decoded);
+          
         }
       } catch (e) {
         console.error("Invalid token", e);
@@ -36,6 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const token = resp.data.data.token;
     localStorage.setItem("token", token);
     const decoded: any = jwtDecode(token);
+    console.log(decoded)
     setUser(decoded);
     return resp.data;
   }

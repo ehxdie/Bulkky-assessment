@@ -46,7 +46,6 @@ const AdminDashboard: React.FC = () => {
     setUploading(true);
     try {
       const base64 = await fileToBase64(file);
-      // store the data URL in imageUrl; server will receive base64 string
       setForm((s) => ({ ...s, imageUrl: base64 }));
     } finally {
       setUploading(false);
@@ -108,7 +107,7 @@ const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 h-full flex flex-col">
       <h2 className="text-2xl font-bold mb-4">Admin Dashboard</h2>
 
       <form className="mb-6 flex flex-col gap-2" onSubmit={handleCreate}>
@@ -128,24 +127,32 @@ const AdminDashboard: React.FC = () => {
           className="border px-2"
           required
         />
-        <input
-          name="price"
-          type="number"
-          placeholder="Price"
-          value={String(form.price)}
-          onChange={handleChange}
-          className="border px-2"
-          required
-        />
-        <input
-          name="stock"
-          type="number"
-          placeholder="Stock"
-          value={String(form.stock)}
-          onChange={handleChange}
-          className="border px-2"
-          required
-        />
+        <div className="flex gap-2">
+          <div className="flex flex-col">
+            <label className="text-sm text-gray-700">Price</label>
+            <input
+              name="price"
+              type="number"
+              placeholder="Price"
+              value={String(form.price)}
+              onChange={handleChange}
+              className="border px-2"
+              required
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="text-sm text-gray-700">Stock</label>
+            <input
+              name="stock"
+              type="number"
+              placeholder="Stock"
+              value={String(form.stock)}
+              onChange={handleChange}
+              className="border px-2"
+              required
+            />
+          </div>
+        </div>
 
         <label className="flex flex-col">
           <span>Image</span>
@@ -169,124 +176,147 @@ const AdminDashboard: React.FC = () => {
         </button>
       </form>
 
-      <ul>
-        {products.map((product) => (
-          <li
-            key={product.id}
-            className="mb-2 flex flex-col gap-2 border-b pb-2"
-          >
-            {editId === product.id ? (
-              <form className="flex flex-col gap-2" onSubmit={handleUpdate}>
-                <input
-                  name="name"
-                  placeholder="Name"
-                  value={(editForm.name as string) ?? ""}
-                  onChange={(e) =>
-                    setEditForm((s) => ({ ...(s || {}), name: e.target.value }))
-                  }
-                  className="border px-2"
-                  required
-                />
-                <input
-                  name="description"
-                  placeholder="Description"
-                  value={(editForm.description as string) ?? ""}
-                  onChange={(e) =>
-                    setEditForm((s) => ({
-                      ...(s || {}),
-                      description: e.target.value,
-                    }))
-                  }
-                  className="border px-2"
-                  required
-                />
-                <input
-                  name="price"
-                  type="number"
-                  placeholder="Price"
-                  value={String(editForm.price ?? "")}
-                  onChange={(e) =>
-                    setEditForm((s) => ({
-                      ...(s || {}),
-                      price: Number(e.target.value),
-                    }))
-                  }
-                  className="border px-2"
-                  required
-                />
-                <input
-                  name="stock"
-                  type="number"
-                  placeholder="Stock"
-                  value={String(editForm.stock ?? "")}
-                  onChange={(e) =>
-                    setEditForm((s) => ({
-                      ...(s || {}),
-                      stock: Number(e.target.value),
-                    }))
-                  }
-                  className="border px-2"
-                  required
-                />
-
-                <label className="flex flex-col">
-                  <span>Change Image</span>
+      <div className="flex-1 overflow-y-auto">
+        <ul>
+          {products.map((product) => (
+            <li
+              key={product.id}
+              className="mb-2 flex flex-col gap-2 border-b pb-2"
+            >
+              {editId === product.id ? (
+                <form className="flex flex-col gap-2" onSubmit={handleUpdate}>
                   <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleEditFileChange}
+                    name="name"
+                    placeholder="Name"
+                    value={(editForm.name as string) ?? ""}
+                    onChange={(e) =>
+                      setEditForm((s) => ({
+                        ...(s || {}),
+                        name: e.target.value,
+                      }))
+                    }
+                    className="border px-2"
+                    required
                   />
-                </label>
-
-                {editForm.imageUrl && (
-                  <img
-                    src={editForm.imageUrl as string}
-                    alt="preview"
-                    className="w-32 h-32 object-cover mt-2"
+                  <input
+                    name="description"
+                    placeholder="Description"
+                    value={(editForm.description as string) ?? ""}
+                    onChange={(e) =>
+                      setEditForm((s) => ({
+                        ...(s || {}),
+                        description: e.target.value,
+                      }))
+                    }
+                    className="border px-2"
+                    required
                   />
-                )}
+                  <div className="flex gap-2">
+                    <div className="flex flex-col">
+                      <label className="text-sm text-gray-700">Price</label>
+                      <input
+                        name="price"
+                        type="number"
+                        placeholder="Price"
+                        value={String(editForm.price ?? "")}
+                        onChange={(e) =>
+                          setEditForm((s) => ({
+                            ...(s || {}),
+                            price: Number(e.target.value),
+                          }))
+                        }
+                        className="border px-2"
+                        required
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <label className="text-sm text-gray-700">Stock</label>
+                      <input
+                        name="stock"
+                        type="number"
+                        placeholder="Stock"
+                        value={String(editForm.stock ?? "")}
+                        onChange={(e) =>
+                          setEditForm((s) => ({
+                            ...(s || {}),
+                            stock: Number(e.target.value),
+                          }))
+                        }
+                        className="border px-2"
+                        required
+                      />
+                    </div>
+                  </div>
 
-                <div className="flex gap-2">
-                  <button
-                    type="submit"
-                    className="bg-green-600 text-white px-2 py-1 rounded"
-                  >
-                    Update
-                  </button>
-                  <button
-                    type="button"
-                    className="bg-gray-400 text-white px-2 py-1 rounded"
-                    onClick={handleCancelEdit}
-                  >
-                    Cancel
-                  </button>
+                  <label className="flex flex-col">
+                    <span>Change Image</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleEditFileChange}
+                    />
+                  </label>
+
+                  {editForm.imageUrl && (
+                    <img
+                      src={editForm.imageUrl as string}
+                      alt="preview"
+                      className="w-32 h-32 object-cover mt-2"
+                    />
+                  )}
+
+                  <div className="flex gap-2">
+                    <button
+                      type="submit"
+                      className="bg-green-600 text-white px-2 py-1 rounded"
+                    >
+                      Update
+                    </button>
+                    <button
+                      type="button"
+                      className="bg-gray-400 text-white px-2 py-1 rounded"
+                      onClick={handleCancelEdit}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <div className="flex justify-between items-center">
+                  <div>
+                    <div className="font-semibold">{product.name}</div>
+                    <div className="text-sm text-gray-600 mb-1">
+                      {product.description}
+                    </div>
+                    <div className="flex gap-4 text-sm text-gray-700">
+                      <span>
+                        <strong>Price:</strong> ${product.price}
+                      </span>
+                      <span>
+                        <strong>Stock:</strong> {product.stock}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      className="bg-yellow-500 text-white px-2 py-1 rounded"
+                      onClick={() => handleEdit(product)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="bg-red-500 text-white px-2 py-1 rounded"
+                      onClick={() => handleDelete(product.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
-              </form>
-            ) : (
-              <div className="flex justify-between items-center">
-                <div>
-                  <div className="font-semibold">{product.name}</div>
-                  <div className="text-sm text-gray-600">${product.price}</div>
-                </div>
-                <div className="flex gap-2">
-                  <button
-                    className="bg-yellow-500 text-white px-2 py-1 rounded"
-                    onClick={() => handleEdit(product)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="bg-red-500 text-white px-2 py-1 rounded"
-                    onClick={() => handleDelete(product.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            )}
-          </li>
-        ))}
-      </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
