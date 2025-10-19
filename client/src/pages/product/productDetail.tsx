@@ -1,96 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProduct } from "../../services/client";
-import {
-  addProductToCart,
-  getCart,
-  updateCartItemQuantity,
-} from "../../services/cart";
+import { addProductToCart } from "../../services/cart";
 import type { Product } from "../../types/client";
-import type { GetCartResponse } from "../../types/cart";
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
-  const [cartItem, setCartItem] = useState<GetCartResponse["data"][0] | null>(
-    null
-  );
+  const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch product and cart item for this product
   useEffect(() => {
     if (id) {
       getProduct(id).then((resp) => setProduct(resp.data.data));
-      getCart().then((cartResp) => {
-        const items = cartResp.data.data || [];
-        const found = items.find((item) => item.productId === id);
-        setCartItem(found || null);
-      });
     }
   }, [id]);
 
-  // Add to cart (only if not already in cart)
+  const handleIncrease = () => {
+    setQuantity((q) => q + 1);
+  };
+
+  const handleDecrease = () => {
+    setQuantity((q) => (q > 1 ? q - 1 : 1));
+  };
+
   const handleAddToCart = async () => {
     if (!product) return;
     setLoading(true);
     setSuccess(null);
     setError(null);
     try {
-      await addProductToCart({ productId: product.id, quantity: 1 });
+      await addProductToCart({ productId: product.id, quantity });
       setSuccess("Added to cart!");
-      // Refresh cart item state
-      const cartResp = await getCart();
-      const items = cartResp.data.data || [];
-      const found = items.find((item) => item.productId === product.id);
-      setCartItem(found || null);
       setTimeout(() => setSuccess(null), 1200);
     } catch (err: any) {
       setError("Could not add to cart");
       setTimeout(() => setError(null), 1200);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Increase quantity
-  const handleIncrease = async () => {
-    if (!cartItem) return;
-    setLoading(true);
-    setError(null);
-    try {
-      await updateCartItemQuantity(cartItem.id, {
-        quantity: cartItem.quantity + 1,
-      });
-      // Refresh cart item state
-      const cartResp = await getCart();
-      const items = cartResp.data.data || [];
-      const found = items.find((item) => item.productId === product?.id);
-      setCartItem(found || null);
-    } catch {
-      setError("Could not update quantity");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Decrease quantity
-  const handleDecrease = async () => {
-    if (!cartItem || cartItem.quantity <= 1) return;
-    setLoading(true);
-    setError(null);
-    try {
-      await updateCartItemQuantity(cartItem.id, {
-        quantity: cartItem.quantity - 1,
-      });
-      // Refresh cart item state
-      const cartResp = await getCart();
-      const items = cartResp.data.data || [];
-      const found = items.find((item) => item.productId === product?.id);
-      setCartItem(found || null);
-    } catch {
-      setError("Could not update quantity");
     } finally {
       setLoading(false);
     }
@@ -119,33 +66,28 @@ const ProductDetail: React.FC = () => {
       </div>
       <div className="mt-4 text-sm text-gray-500">Product ID: {product.id}</div>
       <div className="mt-6 flex items-center gap-4">
-        {!cartItem ? (
-          <button
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-            onClick={handleAddToCart}
-            disabled={loading}
-          >
-            {loading ? "Adding..." : "Add to Cart"}
-          </button>
-        ) : (
-          <div className="flex items-center gap-2">
-            <button
-              className="bg-gray-300 px-3 py-1 rounded text-lg"
-              onClick={handleDecrease}
-              disabled={loading || cartItem.quantity <= 1}
-            >
-              -
-            </button>
-            <span className="px-2">{cartItem.quantity}</span>
-            <button
-              className="bg-gray-300 px-3 py-1 rounded text-lg"
-              onClick={handleIncrease}
-              disabled={loading}
-            >
-              +
-            </button>
-          </div>
-        )}
+        <button
+          className="bg-gray-300 px-3 py-1 rounded text-lg"
+          onClick={handleDecrease}
+          disabled={loading || quantity <= 1}
+        >
+          -
+        </button>
+        <span className="px-2">{quantity}</span>
+        <button
+          className="bg-gray-300 px-3 py-1 rounded text-lg"
+          onClick={handleIncrease}
+          disabled={loading}
+        >
+          +
+        </button>
+        <button
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+          onClick={handleAddToCart}
+          disabled={loading}
+        >
+          {loading ? "Adding..." : "Add to Cart"}
+        </button>
       </div>
       {success && <div className="text-green-600 mt-2">{success}</div>}
       {error && <div className="text-red-600 mt-2">{error}</div>}

@@ -4,11 +4,15 @@ import {
   deleteCartItem,
   updateCartItemQuantity,
 } from "../services/cart";
+import { placeOrderFromCart } from "../services/orders";
 import type { GetCartResponse } from "../types/cart";
 
 const Cart: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [cartItems, setCartItems] = useState<GetCartResponse["data"]>([]);
   const [loading, setLoading] = useState(true);
+  const [placingOrder, setPlacingOrder] = useState(false);
+  const [orderSuccess, setOrderSuccess] = useState<string | null>(null);
+  const [orderError, setOrderError] = useState<string | null>(null);
 
   const fetchCart = async () => {
     setLoading(true);
@@ -38,6 +42,23 @@ const Cart: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     if (quantity <= 1) return;
     await updateCartItemQuantity(cartItemId, { quantity: quantity - 1 });
     fetchCart();
+  };
+
+  const handlePlaceOrder = async () => {
+    setPlacingOrder(true);
+    setOrderSuccess(null);
+    setOrderError(null);
+    try {
+      const resp = await placeOrderFromCart();
+      setOrderSuccess("Order placed successfully!");
+      setCartItems([]); // Optionally clear cart after order
+      setTimeout(() => setOrderSuccess(null), 1500);
+    } catch (err: any) {
+      setOrderError("Failed to place order.");
+      setTimeout(() => setOrderError(null), 1500);
+    } finally {
+      setPlacingOrder(false);
+    }
   };
 
   return (
@@ -88,7 +109,18 @@ const Cart: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           ))}
         </ul>
       )}
-      <button className="mt-2 text-blue-600 underline" onClick={onClose}>
+      {orderSuccess && (
+        <div className="text-green-600 mt-2">{orderSuccess}</div>
+      )}
+      {orderError && <div className="text-red-600 mt-2">{orderError}</div>}
+      <button
+        className="mt-4 bg-green-600 text-white px-4 py-2 rounded w-full"
+        onClick={handlePlaceOrder}
+        disabled={placingOrder || cartItems.length === 0}
+      >
+        {placingOrder ? "Placing Order..." : "Place Order"}
+      </button>
+      <button className="mt-2 text-blue-600 underline w-full" onClick={onClose}>
         Close
       </button>
     </div>

@@ -11,11 +11,23 @@ const Header: React.FC = () => {
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const handleLogout = () => {
-    auth?.logout();
-    window.location.href = "/login";
-  };
+  // Fetch cart items count whenever cart is opened or on mount
+  useEffect(() => {
+    const fetchCartCount = async () => {
+      setLoading(true);
+      try {
+        const resp = await getCart();
+        setCartItems(resp.data.data);
+      } catch {
+        setCartItems([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchCartCount();
+  }, []);
 
+  // Optionally, update count when cart is toggled open
   const handleCartClick = async () => {
     setShowCart((prev) => !prev);
     if (!showCart) {
@@ -31,6 +43,16 @@ const Header: React.FC = () => {
     }
   };
 
+  const cartCount = cartItems.reduce(
+    (sum, item) => sum + (item.quantity || 0),
+    0
+  );
+
+  const handleLogout = () => {
+    auth?.logout();
+    window.location.href = "/login";
+  };
+
   return (
     <header className="w-full flex items-center justify-between p-4 bg-white border-b relative z-10">
       <button
@@ -41,13 +63,18 @@ const Header: React.FC = () => {
       </button>
       <div className="flex items-center gap-4">
         <button
-          onClick={() => setShowCart((prev) => !prev)}
+          onClick={handleCartClick}
           className="relative bg-gray-200 p-2 rounded hover:bg-gray-300 transition"
           title="View Cart"
         >
           <span role="img" aria-label="cart" className="text-xl">
             🛒
           </span>
+          {cartCount > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full px-2 text-xs font-bold">
+              {cartCount}
+            </span>
+          )}
         </button>
         {showCart && <Cart onClose={() => setShowCart(false)} />}
         <button
