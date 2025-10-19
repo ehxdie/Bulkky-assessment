@@ -1,91 +1,229 @@
-Bulkky Assessment
-A full-stack e-commerce platform for product, cart, wishlist, and order management. Built with Node.js, Express, TypeScript, Prisma (Postgres), Redis, and React. The application provides RESTful APIs for backend operations and a modern, responsive frontend for users and admins.
+# Bulkky Assessment
 
-Project Overview
-Bulkky Assessment is a modern e-commerce solution supporting user authentication, product browsing, cart and wishlist management, and order placement. It features robust error handling, type-safe code, and a clean, scalable architecture.
+A full-stack e-commerce application with a backend API (Node.js, Express, TypeScript, Prisma, Redis) and a frontend client (React, TypeScript, React Router, TanStack Query). The project provides admin, authentication, cart, order, wishlist, and client management features, with robust error handling and OpenAPI documentation.
 
-Features
-User Features
-Register and login (JWT authentication)
-Browse products and view product details
-Add products to cart and wishlist
-Update cart quantities, place orders from cart
-View order history and wishlist
-Admin Features
-Create, update, and delete products
-Admin dashboard for product management
-Technical Features
-Type-safe codebase (TypeScript)
-Prisma ORM for PostgreSQL
-Redis for caching and session management
-Comprehensive error handling
-Docker Compose for local development
-Responsive React frontend (with protected routes)
-Modern UI with Montserrat font and mobile-first design
-Tech Stack
-Backend: Node.js, Express, TypeScript
-Database: PostgreSQL (via Prisma ORM)
-Cache/Session: Redis
-Frontend: React, React Router, Tailwind CSS
-DevOps: Docker, Docker Compose
-Getting Started
-Prerequisites
-Node.js (v16 or higher)
-npm or yarn
-Docker & Docker Compose
-Installation
-Clone the repository
+---
 
-Copy and edit the .env file in server
+## Project Overview
 
-Start the stack (API, Postgres, Redis, Adminer)
+Bulkky is a modern e-commerce platform featuring a RESTful backend and a React frontend.
 
-Access the API at http://localhost:3000
-Adminer at http://localhost:3001
+- **Backend (server/):** Handles authentication, admin/product management, cart, orders, wishlist, and client data.
+- **Frontend (client/):** Provides user interfaces for login/register, product browsing, cart, orders, wishlist, and admin dashboard.
 
-Start the frontend
+---
 
-Access the frontend at http://localhost:3000 (or the port specified in your React config).
+## Features
 
-Environment Configuration
-Example .env for Backend
-Running Tests
-API Documentation
-The API provides the following endpoints:
+### Server (Backend)
 
-Authentication
-POST /api/v1/auth/login — Login
-POST /api/v1/auth/sign-up — Register
-Product Endpoints
-GET /api/v1/client/products — List all products
-GET /api/v1/client/products/:id — Get product details
-Cart Endpoints
-GET /api/v1/cart — Get cart items
-POST /api/v1/cart/products — Add product to cart
-PUT /api/v1/cart/products/:id — Update cart item quantity
-DELETE /api/v1/cart/products/:id — Remove item from cart
-Wishlist Endpoints
-GET /api/v1/wishlist — Get wishlist items
-POST /api/v1/wishlist — Add product to wishlist
-DELETE /api/v1/wishlist — Remove product from wishlist
-Order Endpoints
-POST /api/v1/orders — Place order from cart
-GET /api/v1/orders — Get user orders
-Admin Endpoints
-POST /api/v1/admin/products — Create product
-PUT /api/v1/admin/products/:id — Update product
-DELETE /api/v1/admin/products/:id — Delete product
-Development
-Project Structure
-Contributing
-Fork the repository
-Create a feature branch (git checkout -b feature/AmazingFeature)
-Commit your changes (git commit -m 'Add some AmazingFeature')
-Push to the branch (git push origin feature/AmazingFeature)
-Open a Pull Request
-Testing
-Unit Tests (Jest)
-Integration Tests (Jest + Supertest)
-API Tests
-License
+- Admin authentication and dashboard
+- Product CRUD operations
+- User registration/login (JWT)
+- Cart management (add/remove/view)
+- Order creation and history
+- Wishlist management
+- Client details endpoint
+- Type-safe codebase (TypeScript)
+- Prisma ORM (Postgres)
+- Redis caching
+- OpenAPI docs (`/docs`)
+- Docker Compose setup
+- Jest unit/integration tests
+
+### Client (Frontend)
+
+- User authentication (login/register)
+- Product listing and details
+- Cart and wishlist management
+- Order placement and history
+- Admin dashboard (protected route)
+- React Router navigation
+- TanStack Query for data fetching/caching
+- Tailwind CSS styling
+- Jest + Testing Library tests
+
+---
+
+## Tech Stack
+
+- **Backend:** Node.js, Express, TypeScript, Prisma, Redis
+- **Frontend:** React, TypeScript, React Router, TanStack Query, Tailwind CSS
+- **Database:** PostgreSQL
+- **Testing:** Jest, Supertest, Testing Library
+- **Documentation:** Swagger (swagger-ui-express)
+- **DevOps:** Docker, Docker Compose
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v16+)
+- npm or yarn
+- Docker & Docker Compose
+
+### Backend Setup (`server/`)
+
+1. Install dependencies:
+   ```bash
+   cd server
+   npm install
+   ```
+2. Copy and edit `.env`:
+   ```env
+   PORT=3000
+   DEV_DOCKER_DATABASE=postgresql://postgres:password@db:5432/bulkky
+   DEV_DOCKER_SHADOW_DATABASE=postgresql://postgres:password@db:5432/bulkky_shadow
+   NODE_ENV=development
+   JWT_SECRET=secret
+   JWT_EXPIRES_IN=1h
+   JWT_ISSUER=bulkky
+   ```
+3. Start backend stack:
+   ```bash
+   docker-compose up --build
+   ```
+4. Start backend
+     
+   ```
+   npm run build
+   npm run start
+   ```
+   
+5. Access API: [http://localhost:3000](http://localhost:3000)  
+   Swagger docs: [http://localhost:3000/docs](http://localhost:3000/docs)  
+   Adminer: [http://localhost:3001](http://localhost:3001)
+
+### Frontend Setup (`client/`)
+
+1. Install dependencies:
+   ```bash
+   cd client
+   npm install
+   ```
+2. Start development server:
+   ```bash
+   npm start
+   ```
+3. Access frontend: [http://localhost:3000](http://localhost:3000) (or configured port)
+
+---
+
+## API Endpoints (Backend)
+
+### Admin
+
+- `POST /api/v1/admin/products` — Create products
+- `PUT /api/v1/admin/products/:productID` — Update product
+- `DELETE /api/v1/admin/products/:productID` — Delete product
+
+
+### Auth
+
+- `POST /api/v1/auth/sign-up` — Register user
+- `POST /api/v1/auth/login` — User login
+
+### Cart
+
+- `GET /api/v1/cart` — Get cart
+- `POST /api/v1/cart/products` — Add product
+- `DELETE /api/v1/cart/products/:productID` — Delete Cart
+- `PUT /api/v1/cart/products/:productID` — Update Cart
+
+### Orders
+
+- `POST /api/v1/orders` — Place order from cart
+- `GET /api/v1/orders` — Get orders
+
+### Wishlist
+
+- `GET /api/v1/wishlist` — Get wishlist
+- `POST /api/v1/wishlist/add` — Create wishlist
+- `DELETE /api/v1/wishlist/:productID` — Remove product
+
+### Client
+
+- `GET /api/v1/client/products` — Get all products
+- `GET /api/v1/client/products/:productID` — Get a product
+
+---
+
+## Frontend Routes
+
+- `/login` — Login page
+- `/register` — Registration page
+- `/products` — Product listing
+- `/products/:id` — Product details
+- `/orders` — Orders
+- `/wishlist` — Wishlist
+- `/admin` — Admin dashboard (protected)
+- `/` — Redirect to `/products`
+
+---
+
+## Project Structure
+
+```
+├── server/
+│   ├── src/
+│   │   ├── api/
+│   │   ├── exceptions/
+│   │   ├── middlewares/
+│   │   ├── utils/
+│   │   ├── app.ts
+│   │   ├── server.ts
+│   ├── prisma/
+│   ├── docker-compose.yaml
+│   ├── .env
+├── client/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── hooks/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   ├── types/
+│   │   ├── utils/
+│   │   ├── App.tsx
+│   ├── public/
+│   ├── tailwind.config.js
+│   ├── package.json
+```
+
+---
+
+## License
+
+MIT License - see LICENSE file for details.
+│ ├── middlewares/
+│ ├── utils/
+│ ├── app.ts
+│ ├── server.ts
+├── prisma/
+│ ├── schema.prisma
+│ └── migrations/
+├── docker-compose.yaml
+├── Dockerfile
+├── .env
+
+```
+
+---
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+
+## License
+
 This project is licensed under the MIT License - see the LICENSE file for details.
+```
