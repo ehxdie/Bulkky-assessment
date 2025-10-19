@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getProduct } from "../../services/client";
 import { addProductToCart } from "../../services/cart";
+import { createWishlist } from "../../services/wishlist";
 import type { Product } from "../../types/client";
 
 const ProductDetail: React.FC = () => {
@@ -11,6 +12,9 @@ const ProductDetail: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [wishlistLoading, setWishlistLoading] = useState(false);
+  const [wishlistSuccess, setWishlistSuccess] = useState<string | null>(null);
+  const [wishlistError, setWishlistError] = useState<string | null>(null);
 
   useEffect(() => {
     if (id) {
@@ -40,6 +44,23 @@ const ProductDetail: React.FC = () => {
       setTimeout(() => setError(null), 1200);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleAddToWishlist = async () => {
+    if (!product) return;
+    setWishlistLoading(true);
+    setWishlistSuccess(null);
+    setWishlistError(null);
+    try {
+      await createWishlist({ productId: product.id });
+      setWishlistSuccess("Added to wishlist!");
+      setTimeout(() => setWishlistSuccess(null), 1200);
+    } catch (err: any) {
+      setWishlistError("Could not add to wishlist");
+      setTimeout(() => setWishlistError(null), 1200);
+    } finally {
+      setWishlistLoading(false);
     }
   };
 
@@ -88,9 +109,22 @@ const ProductDetail: React.FC = () => {
         >
           {loading ? "Adding..." : "Add to Cart"}
         </button>
+        <button
+          className="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition"
+          onClick={handleAddToWishlist}
+          disabled={wishlistLoading}
+        >
+          {wishlistLoading ? "Adding..." : "Add to Wishlist"}
+        </button>
       </div>
       {success && <div className="text-green-600 mt-2">{success}</div>}
       {error && <div className="text-red-600 mt-2">{error}</div>}
+      {wishlistSuccess && (
+        <div className="text-green-600 mt-2">{wishlistSuccess}</div>
+      )}
+      {wishlistError && (
+        <div className="text-red-600 mt-2">{wishlistError}</div>
+      )}
     </div>
   );
 };
