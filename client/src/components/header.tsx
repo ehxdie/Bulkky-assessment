@@ -52,28 +52,31 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="w-full flex items-center justify-between p-4 bg-white border-b relative z-10">
-      <div className="flex items-center gap-4">
+    <header
+      className="w-full flex flex-col md:flex-row items-center justify-between px-4 py-3 bg-white border-b shadow-sm font-sans"
+      style={{ fontFamily: "Montserrat, Arial, sans-serif" }}
+    >
+      <div className="flex items-center gap-2 md:gap-4 mb-2 md:mb-0">
         <button
           onClick={() => navigate("/products")}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition font-semibold text-sm"
         >
           Home
         </button>
         <button
           onClick={() => navigate("/orders")}
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition font-semibold text-sm"
         >
           Orders
         </button>
         <button
           onClick={() => navigate("/wishlist")}
-          className="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition"
+          className="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition font-semibold text-sm"
         >
           Wishlist
         </button>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-2 md:gap-4">
         <button
           onClick={handleCartClick}
           className="relative bg-gray-200 p-2 rounded hover:bg-gray-300 transition"
@@ -91,7 +94,7 @@ const Header: React.FC = () => {
         {showCart && <Cart onClose={() => setShowCart(false)} />}
         <button
           onClick={handleLogout}
-          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition font-semibold text-sm"
         >
           Logout
         </button>

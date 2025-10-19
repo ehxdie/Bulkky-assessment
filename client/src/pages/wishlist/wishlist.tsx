@@ -34,30 +34,44 @@ const Wishlist: React.FC = () => {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">My Wishlist</h2>
+    <div
+      className="p-4 md:p-8 min-h-screen bg-gray-50 font-sans"
+      style={{ fontFamily: "Montserrat, Arial, sans-serif" }}
+    >
+      <h2 className="text-3xl font-bold mb-6 text-gray-800 text-center">
+        My Wishlist
+      </h2>
       {loading ? (
-        <div>Loading...</div>
+        <div className="text-center text-gray-600">Loading...</div>
       ) : error ? (
-        <div className="text-red-600">{error}</div>
+        <div className="text-center text-red-600">{error}</div>
       ) : wishlists.length === 0 ? (
-        <div>No items in wishlist.</div>
+        <div className="text-center text-gray-500">No items in wishlist.</div>
       ) : (
-        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {wishlists.map((item) => (
-            <li key={item.id} className="border rounded p-4 flex flex-col">
-              <div className="font-semibold text-lg">{item.product?.name}</div>
-              <div className="text-sm text-gray-600">
+            <li
+              key={item.id}
+              className="bg-white border rounded-xl shadow p-6 flex flex-col"
+            >
+              <div className="font-semibold text-lg text-gray-800 mb-1">
+                {item.product?.name}
+              </div>
+              <div className="text-sm text-gray-600 mb-2">
                 {item.product?.description}
               </div>
-              {item.product?.imageUrl && (
+              {item.product?.imageUrl ? (
                 <img
                   src={item.product.imageUrl}
                   alt={item.product.name}
-                  className="w-full h-32 object-cover mt-2 rounded"
+                  className="w-full h-32 object-cover mb-2 rounded"
                 />
+              ) : (
+                <div className="w-full h-32 bg-gray-100 flex items-center justify-center text-gray-400 mb-2">
+                  No image
+                </div>
               )}
-              <div className="flex gap-4 text-sm text-gray-700 mt-2">
+              <div className="flex gap-4 text-sm text-gray-700 mb-2">
                 <span>
                   <strong>Price:</strong> ${item.product?.price}
                 </span>
@@ -66,7 +80,7 @@ const Wishlist: React.FC = () => {
                 </span>
               </div>
               <button
-                className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                className="mt-auto bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
                 onClick={() => handleDelete(item.productId)}
               >
                 Delete

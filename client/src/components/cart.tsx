@@ -72,12 +72,17 @@ const Cart: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   };
 
   return (
-    <div className="absolute right-24 top-16 bg-white shadow-lg rounded p-4 w-80 max-h-96 overflow-y-auto border z-20">
-      <h3 className="font-bold mb-2">Cart Items</h3>
+    <div
+      className="absolute right-2 md:right-24 top-16 bg-white shadow-lg rounded-xl p-4 w-full max-w-xs md:max-w-sm max-h-96 overflow-y-auto border z-20 font-sans"
+      style={{ fontFamily: "Montserrat, Arial, sans-serif" }}
+    >
+      <h3 className="font-bold mb-2 text-gray-800 text-lg text-center">
+        Cart Items
+      </h3>
       {loading ? (
-        <div>Loading...</div>
+        <div className="text-center text-gray-600">Loading...</div>
       ) : cartItems.length === 0 ? (
-        <div>No items in cart.</div>
+        <div className="text-center text-gray-500">No items in cart.</div>
       ) : (
         <ul>
           {cartItems.map((item) => (
@@ -86,7 +91,7 @@ const Cart: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               className="mb-2 border-b pb-2 flex justify-between items-center"
             >
               <div>
-                <div className="font-semibold">
+                <div className="font-semibold text-gray-800">
                   {item.product?.name || "Product"}
                 </div>
                 <div className="text-sm text-gray-600 flex items-center gap-2">
@@ -110,7 +115,7 @@ const Cart: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 </div>
               </div>
               <button
-                className="ml-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                className="ml-2 bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs"
                 onClick={() => handleDelete(item.id)}
               >
                 Delete
@@ -120,24 +125,26 @@ const Cart: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </ul>
       )}
       {orderSuccess && (
-        <div className="text-green-600 mt-2">{orderSuccess}</div>
+        <div className="text-green-600 mt-2 text-center">{orderSuccess}</div>
       )}
-      {orderError && <div className="text-red-600 mt-2">{orderError}</div>}
+      {orderError && (
+        <div className="text-red-600 mt-2 text-center">{orderError}</div>
+      )}
       {showConfirm ? (
         <div className="mt-4 flex flex-col items-center">
-          <div className="mb-2 font-semibold">
+          <div className="mb-2 font-semibold text-gray-700 text-center">
             Are you sure you want to place this order?
           </div>
           <div className="flex gap-2">
             <button
-              className="bg-green-600 text-white px-4 py-2 rounded"
+              className="bg-green-600 text-white px-4 py-2 rounded font-semibold"
               onClick={handleConfirmOrder}
               disabled={placingOrder}
             >
               {placingOrder ? "Placing..." : "Confirm"}
             </button>
             <button
-              className="bg-gray-400 text-white px-4 py-2 rounded"
+              className="bg-gray-400 text-white px-4 py-2 rounded font-semibold"
               onClick={handleCancelConfirm}
               disabled={placingOrder}
             >
@@ -147,14 +154,17 @@ const Cart: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </div>
       ) : (
         <button
-          className="mt-4 bg-green-600 text-white px-4 py-2 rounded w-full"
+          className="mt-4 bg-green-600 text-white px-4 py-2 rounded w-full font-semibold"
           onClick={handlePlaceOrderClick}
           disabled={placingOrder || cartItems.length === 0}
         >
           Place Order
         </button>
       )}
-      <button className="mt-2 text-blue-600 underline w-full" onClick={onClose}>
+      <button
+        className="mt-2 text-blue-600 underline w-full font-medium"
+        onClick={onClose}
+      >
         Close
       </button>
     </div>
